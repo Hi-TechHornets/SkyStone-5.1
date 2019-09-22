@@ -6,10 +6,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp
 
 public class skyStoneChassis extends LinearOpMode {
-    private skyStoneRobotControl hth3;
+    private robotControl hth3;
 
     public void runOpMode() {
-        hth3 = new skyStoneRobotControl();
+        hth3 = new robotControl();
 
         hth3.init(hardwareMap);
 
