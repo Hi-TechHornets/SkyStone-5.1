@@ -2,15 +2,23 @@ package org.firstinspires.ftc.teamcode.Enabled_Classes;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.BNO055IMUImpl;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
+//@Disabled
 public class robotControl {
     public DcMotor leftFront;
     public DcMotor leftRear;
     public DcMotor rightFront;
     public DcMotor rightRear;
+
+    public DcMotor gripperRotate;
+
+    public Servo gripperServo;
+
     public BNO055IMUImpl imu;
 
     private HardwareMap hardwareMap = null;
@@ -21,6 +29,9 @@ public class robotControl {
         leftRear = hardwareMap.dcMotor.get("1leftRear");
         rightFront = hardwareMap.dcMotor.get("2rightFront");
         rightRear = hardwareMap.dcMotor.get("3rightRear");
+
+        gripperRotate = hardwareMap.dcMotor.get("flipMotor");
+        gripperServo = hardwareMap.servo.get("gripperServo");
 
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);

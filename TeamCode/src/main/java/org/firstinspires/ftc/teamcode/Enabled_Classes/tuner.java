@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Enabled_Classes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -14,7 +15,7 @@ import edu.spa.ftclib.internal.sensor.IntegratingGyroscopeSensor;
 import edu.spa.ftclib.util.PIDTuner;
 
 @TeleOp
-
+@Disabled
 public class tuner extends LinearOpMode {
     private robotControl hth3;
     private HeadingableMecanumDrivetrain robot;
