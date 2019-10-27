@@ -758,7 +758,9 @@ public class FtcRobotControllerActivity extends Activity
     //
     RobotLog.clearGlobalErrorMsg();
     RobotLog.clearGlobalWarningMsg();
+    FtcDashboard.stop();
     shutdownRobot();
+    FtcDashboard.start();
     requestRobotSetup(new Runnable() {
       @Override public void run() {
         showRestartRobotCompleteToast(R.string.toastRestartRobotComplete);
