@@ -9,4 +9,5 @@ dependencies {
     implementation 'com.acmerobotics.dashboard:dashboard:0.3.4'
     implementation 'com.acmerobotics.roadrunner:core:0.4.5'
     implementation project(':HOMAR-FTC-Library')
+    implementation 'com.github.dogecv:dogecv:2020.4-alpha'
 }
