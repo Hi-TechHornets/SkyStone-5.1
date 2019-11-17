@@ -5,8 +5,12 @@ import com.qualcomm.hardware.bosch.BNO055IMUImpl;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.util.concurrent.TimeUnit;
 
 //@Disabled
 public class robotControl {
@@ -15,23 +19,46 @@ public class robotControl {
     public DcMotor rightFront;
     public DcMotor rightRear;
 
-    public DcMotor gripperRotate;
+//    public DcMotor gripperRotate;
 
-    public Servo gripperServo;
+    public DcMotor rightWheel;
+    public DcMotor leftWheel;
+
+    public DcMotor lift;
+
+//    public Servo gripperServo;
+//    public Servo cr;
+    public Servo lock;
+    public Servo foundation;
 
     public BNO055IMUImpl imu;
 
+    public DigitalChannel magnet;
+
+    public ElapsedTime timer = new ElapsedTime();
+
     private HardwareMap hardwareMap = null;
 
-    void init(HardwareMap ahwMap) {
+    public void init(HardwareMap ahwMap) {
         hardwareMap = ahwMap;
         leftFront = hardwareMap.dcMotor.get("0leftFront");
         leftRear = hardwareMap.dcMotor.get("1leftRear");
         rightFront = hardwareMap.dcMotor.get("2rightFront");
         rightRear = hardwareMap.dcMotor.get("3rightRear");
 
-        gripperRotate = hardwareMap.dcMotor.get("flipMotor");
-        gripperServo = hardwareMap.servo.get("gripperServo");
+        rightWheel = hardwareMap.dcMotor.get("rightWheel");
+        leftWheel = hardwareMap.dcMotor.get("leftWheel");
+
+        lift = hardwareMap.dcMotor.get("lift");
+
+        lock = hardwareMap.servo.get("lock");
+        foundation = hardwareMap.servo.get("foundation");
+
+        magnet = hardwareMap.digitalChannel.get("magnet");
+
+//        gripperRotate = hardwareMap.dcMotor.get("flipMotor");
+//        gripperServo = hardwareMap.servo.get("gripperServo");
+//        cr = hardwareMap.servo.get("cr");
 
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
@@ -40,6 +67,11 @@ public class robotControl {
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        rightWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
@@ -52,32 +84,40 @@ public class robotControl {
         imu.initialize(parameters);
     }
 
-    void moveDriveMotors(double power) {
+    public void moveDriveMotors(double power) {
         moveDriveMotors(power, power);
     }
 
-    void moveDriveMotors(double leftPower, double rightPower) {
+    public void moveDriveMotors(double leftPower, double rightPower) {
         leftFront.setPower(leftPower);
         leftRear.setPower(leftPower);
         rightFront.setPower(rightPower);
         rightRear.setPower(rightPower);
     }
 
-    void moveDriveMotors(double leftFrontPower, double leftRearPower, double rightFrontPower, double rightRearPower) {
+    public void moveDriveMotors(double leftFrontPower, double leftRearPower, double rightFrontPower, double rightRearPower) {
         leftFront.setPower(leftFrontPower);
         leftRear.setPower(leftRearPower);
         rightFront.setPower(rightFrontPower);
         rightRear.setPower(rightRearPower);
     }
 
-    void halt() {
+    public void halt() {
         moveDriveMotors(0);
     }
 
-    void encoderMode(DcMotor.RunMode mode) {
+    public void encoderMode(DcMotor.RunMode mode) {
         rightFront.setMode(mode);
         rightRear.setMode(mode);
         leftFront.setMode(mode);
         leftRear.setMode(mode);
+    }
+
+    public void resetTimer() {
+        timer.reset();
+    }
+
+    public long getTime() {
+        return timer.time(TimeUnit.MILLISECONDS);
     }
 }
