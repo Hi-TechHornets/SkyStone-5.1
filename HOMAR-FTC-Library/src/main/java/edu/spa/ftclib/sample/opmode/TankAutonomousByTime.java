@@ -1,6 +1,7 @@
 package edu.spa.ftclib.sample.opmode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -14,6 +15,7 @@ import edu.spa.ftclib.sample.robot.BNO055HolonomicBot;
  * Tested and found fully functional by Gabriel on 2019-2-4.
  */
 
+@Disabled
 @Autonomous(name = "Tank Autonomous By Time", group = "sample")
 public class TankAutonomousByTime extends LinearOpMode {
     TankDrivetrain drivetrain;
