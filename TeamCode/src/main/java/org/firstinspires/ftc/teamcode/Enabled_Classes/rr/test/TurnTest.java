@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
+import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREVOptimized;
 
 @Config
 @Autonomous(group="drive")

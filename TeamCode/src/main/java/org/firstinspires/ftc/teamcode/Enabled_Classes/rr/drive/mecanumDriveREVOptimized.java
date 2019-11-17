@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.AxesSigns;
+import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.LynxModuleUtil;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.LynxOptimizedI2cFactory;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -35,16 +38,18 @@ public class mecanumDriveREVOptimized extends mecanumDriveBase {
         // TODO: adjust the names of the following hardware devices to match your configuration
         // for simplicity, we assume that the desired IMU and drive motors are on the same hub
         // if your motors are split between hubs, **you will need to add another bulk read**
-        hub = hardwareMap.get(ExpansionHubEx.class, "hub");
+
+        hub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub One");
 
         imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
-
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMUUtil.remapAxes(imu, AxesOrder.ZYX, AxesSigns.PNP);
         // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
         // upward (normal to the floor) using a command like the following:
-        // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
+
 
         leftFront = hardwareMap.get(ExpansionHubMotor.class, "0leftFront");
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "1leftRear");
@@ -57,7 +62,7 @@ public class mecanumDriveREVOptimized extends mecanumDriveBase {
             // TODO: decide whether or not to use the built-in velocity PID
             // if you keep it, then don't tune kStatic or kA
             // otherwise, comment out the following line
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 

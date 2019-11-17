@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 @Autonomous(group="drive")
 
 public class TrackWidthTuner extends LinearOpMode {
-    public static double ANGLE = Math.toRadians(180);
+    public static double ANGLE = Math.toRadians(90);
     public static int NUM_TRIALS = 5;
 
     @Override

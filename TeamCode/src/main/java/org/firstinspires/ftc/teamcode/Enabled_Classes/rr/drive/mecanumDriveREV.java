@@ -9,6 +9,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.AxesSigns;
+import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.LynxModuleUtil;
 
 import java.util.ArrayList;
@@ -32,6 +35,7 @@ public class mecanumDriveREV extends mecanumDriveBase {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
+        BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.PPP);
 
         // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
         // upward (normal to the floor) using a command like the following:
@@ -53,8 +57,8 @@ public class mecanumDriveREV extends mecanumDriveBase {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setDirection(DcMotor.Direction.REVERSE);
+        leftRear.setDirection(DcMotor.Direction.REVERSE);
 
         // TODO: set the tuned coefficients from DriveVelocityPIDTuner if using RUN_USING_ENCODER
         // setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, ...);
