@@ -29,6 +29,8 @@ package org.firstinspires.ftc.teamcode.Enabled_Classes;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -50,7 +52,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-//@Disabled
+@Disabled
 public class TensorFlowTest extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -124,6 +126,25 @@ public class TensorFlowTest extends LinearOpMode {
                                     recognition.getLeft(), recognition.getTop());
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
+                            if(recognition.getLabel().equals("Skystone"))
+                            {
+                                if(recognition.getRight() > 500)
+                                {
+                                    telemetry.addData("Position: ", "Right!");
+                                    Log.d("distanceTest", "Right");
+                                }
+                                else if(recognition.getRight() < 300)
+                                {
+                                    telemetry.addData("Position: ", "Left!");
+                                    Log.d("distanceTest", "Left");
+                                }
+                                else
+                                {
+                                    telemetry.addData("Position: ", "Middle!");
+                                    Log.d("distanceTest", "Middle");
+                                }
+
+                            }
                         }
                         telemetry.update();
                     }

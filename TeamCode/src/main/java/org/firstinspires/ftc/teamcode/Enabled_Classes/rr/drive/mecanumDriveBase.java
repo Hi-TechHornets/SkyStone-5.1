@@ -198,4 +198,10 @@ public abstract class mecanumDriveBase extends MecanumDrive {
     public abstract PIDCoefficients getPIDCoefficients(DcMotor.RunMode runMode);
 
     public abstract void setPIDCoefficients(DcMotor.RunMode runMode, PIDCoefficients coefficients);
+
+    public abstract void resetEncoders();
+
+    public abstract void setFoundation(double position);
+
+    public abstract void invertMotors();
 }

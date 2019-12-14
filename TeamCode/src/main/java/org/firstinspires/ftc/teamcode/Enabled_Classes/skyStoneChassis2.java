@@ -55,7 +55,7 @@ public class skyStoneChassis2 extends LinearOpMode {
 
         waitForStart();
 
-        magnetThread.start();
+//        magnetThread.start();
 
         while(opModeIsActive()) {
             telemetry.addData("Status", "Running");
@@ -93,20 +93,20 @@ public class skyStoneChassis2 extends LinearOpMode {
                 }
             }
             // Manual lift control
-            if(gamepad1.left_bumper) {
+            if(gamepad2.left_bumper) {
                 hth3.lift.setPower(-liftPower);
             }
-            else if(gamepad1.right_bumper) {
+            else if(gamepad2.right_bumper) {
                 hth3.lift.setPower(liftPower);
             }
             else {
                 hth3.lift.setPower(0);
             }
             // Manual foundation mover control
-            if(gamepad1.right_trigger > 0.4) {
+            if(gamepad2.right_trigger > 0.4) {
                 hth3.foundation.setPosition(foundationMin);
             }
-            else if(gamepad1.left_trigger > 0.4) {
+            else if(gamepad2.left_trigger > 0.4) {
                 hth3.foundation.setPosition(foundationMax);
             }
             // Manual intake control
@@ -124,29 +124,41 @@ public class skyStoneChassis2 extends LinearOpMode {
             }
 
             // Manual lock control
-            if(gamepad2.left_bumper) {
+
+            if(gamepad1.left_bumper) {
                 hth3.lock.setPosition(lockMax);
             }
-            else if(gamepad2.right_bumper) {
+            else if(gamepad1.right_bumper) {
                 hth3.lock.setPosition(lockMin);
             }
+
+
 
             telemetry.addData("in", in.output());
             telemetry.addData("out", out.output());
             telemetry.addData("mode", mode.output());
             telemetry.addData("speedmode", speedMode.output());
-            telemetry.addData("magnet", !hth3.magnet.getState());
+            //telemetry.addData("magnet", !hth3.magnet.getState());
+
             switch(magnetThread.getLocation()) {
                 case 0: telemetry.addData("Location", "bottom"); break;
                 case 1: telemetry.addData("Location", "1st block"); break;
                 case 2: telemetry.addData("Location", "2nd block"); break;
                 case 3: telemetry.addData("Location", "top"); break;
             }
+
+
+//            telemetry.addData("leftX", gamepad1.left_stick_x);
+//            telemetry.addData("leftY", gamepad1.left_stick_y);
+//            telemetry.addData("rightX", gamepad1.right_stick_x);
+            telemetry.addData("rightFront", hth3.rightFront.getCurrentPosition());
+            telemetry.addData("leftFront", hth3.leftFront.getCurrentPosition());
+            telemetry.addData("rightRear", hth3.rightRear.getCurrentPosition());
+            telemetry.addData("leftRear", hth3.leftRear.getCurrentPosition());
             telemetry.update();
         }
         magnetThread.interrupt();
     }
-
     private class magnetThread extends Thread {
         public int location = 0;
         private static final int max = 1;
@@ -193,6 +205,19 @@ public class skyStoneChassis2 extends LinearOpMode {
         }
     }
 
+        public void run() {
+                if(gamepad2.dpad_up) {
+                    hth3.lift.setPower(-0.4);
+                }
+                if(gamepad2.dpad_down) {
+
+                    hth3.lift.setPower(0.4);
+                }
+                else {
+                    hth3.lift.setPower(0);
+                }
+        }
+
     private void getJoyVals() {
         y = gamepad1.left_stick_y;
         x = -gamepad1.left_stick_x;
@@ -204,8 +229,8 @@ public class skyStoneChassis2 extends LinearOpMode {
         if(Math.abs(z) < deadzone) z = 0;
         if(Math.abs(w) < 0.9) w = 0;
 
-        out.input(gamepad1.b);
-        in.input(gamepad1.a);
+        out.input(gamepad2.b);
+        in.input(gamepad2.a);
 
         mode.input(gamepad1.x);
         speedMode.input(gamepad1.y);

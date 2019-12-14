@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -119,5 +120,31 @@ public class mecanumDriveREVOptimized extends mecanumDriveBase {
     @Override
     public double getRawExternalHeading() {
         return imu.getAngularOrientation().firstAngle;
+    }
+
+    public void resetEncoders() {
+        for(DcMotorEx motor : motors) {
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public void setFoundation(double position) {
+        ;
+    }
+
+    public void invertMotors() {
+        if(leftFront.getDirection().equals(DcMotorSimple.Direction.REVERSE)) {
+            rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftFront.setDirection(DcMotor.Direction.FORWARD);
+            leftRear.setDirection(DcMotor.Direction.FORWARD);
+        }
+        else {
+            leftFront.setDirection(DcMotor.Direction.REVERSE);
+            leftRear.setDirection(DcMotor.Direction.REVERSE);
+            rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
     }
 }

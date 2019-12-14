@@ -6,8 +6,10 @@ import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.util.AxesSigns;
@@ -22,6 +24,7 @@ import static org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.DriveConst
 
 public class mecanumDriveREV extends mecanumDriveBase {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
+    private Servo foundation;
     private List<DcMotorEx> motors;
     private BNO055IMU imu;
 
@@ -46,6 +49,8 @@ public class mecanumDriveREV extends mecanumDriveBase {
         rightRear = hardwareMap.get(DcMotorEx.class, "3rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "2rightFront");
 
+        foundation = hardwareMap.servo.get("foundation");
+
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (DcMotorEx motor : motors) {
@@ -59,6 +64,8 @@ public class mecanumDriveREV extends mecanumDriveBase {
         // TODO: reverse any motors using DcMotor.setDirection()
         leftFront.setDirection(DcMotor.Direction.REVERSE);
         leftRear.setDirection(DcMotor.Direction.REVERSE);
+//        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+//        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: set the tuned coefficients from DriveVelocityPIDTuner if using RUN_USING_ENCODER
         // setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, ...);
@@ -103,5 +110,31 @@ public class mecanumDriveREV extends mecanumDriveBase {
     @Override
     public double getRawExternalHeading() {
         return imu.getAngularOrientation().firstAngle;
+    }
+
+    public void resetEncoders() {
+        for(DcMotorEx motor : motors) {
+            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+    }
+
+    public void setFoundation(double position) {
+        foundation.setPosition(position);
+    }
+
+    public void invertMotors() {
+        if(leftFront.getDirection().equals(DcMotorSimple.Direction.REVERSE)) {
+            rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftFront.setDirection(DcMotor.Direction.FORWARD);
+            leftRear.setDirection(DcMotor.Direction.FORWARD);
+        }
+        else {
+            leftFront.setDirection(DcMotor.Direction.REVERSE);
+            leftRear.setDirection(DcMotor.Direction.REVERSE);
+            rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
+            rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        }
     }
 }

@@ -15,11 +15,12 @@ public class SplineTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         mecanumDriveBase drive = new mecanumDriveREV(hardwareMap);
+        drive.resetEncoders();
 
         waitForStart();
 
         if (isStopRequested()) return;
-
+        
         drive.followTrajectorySync(
                 drive.trajectoryBuilder()
                         .splineTo(new Pose2d(30, 30, 0))

@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.Enabled_Classes;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -53,7 +54,7 @@ import java.util.List;
  * is explained below.
  */
 @Autonomous
-//@Disabled
+@Disabled
 public class TensorFlowDetect extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";

@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Enabled_Classes;
 
+import android.util.Log;
+
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.BNO055IMUImpl;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,6 +13,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 //@Disabled
@@ -119,5 +127,52 @@ public class robotControl {
 
     public long getTime() {
         return timer.time(TimeUnit.MILLISECONDS);
+    }
+
+    public String sampleSkyStone(Telemetry telemetry, TFObjectDetector tfod) {
+        String position = "";
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                // step through the list of recognitions and display boundary info.
+                if(updatedRecognitions.size() == 2) {
+                    double stone1X = -1;
+                    double stone2X = -1;
+                    double skyStoneX = -1;
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().equals("Skystone")) {
+                            skyStoneX = (int) recognition.getLeft();
+                        }
+                        else if(stone1X == -1) {
+                            stone1X = (int) recognition.getLeft();
+                        }
+                        else {
+                            stone2X = (int) recognition.getLeft();
+                        }
+                    }
+                    if(skyStoneX == -1 && stone1X != -1 && stone2X != -1) {
+                        telemetry.addData("Position", "left");
+                        position = "left";
+                    }
+                    else if(skyStoneX != -1 && stone1X != 1) {
+                        if(skyStoneX > stone1X) {
+                            telemetry.addData("Position", "right");
+                            position = "right";
+                        }
+                        else {
+                            telemetry.addData("Position", "center");
+                            position = "center";
+                        }
+                    }
+//                    telemetry.addData("Position", position);
+//                    telemetry.update();
+                }
+            }
+        }
+        telemetry.update();
+        return position;
     }
 }

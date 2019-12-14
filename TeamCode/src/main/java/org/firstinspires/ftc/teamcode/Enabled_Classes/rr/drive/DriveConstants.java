@@ -12,11 +12,11 @@ public class DriveConstants {
 
     public static double WHEEL_RADIUS = 2;
     public static double GEAR_RATIO = 1;
-    public static double TRACK_WIDTH = 2.485;
+    public static double TRACK_WIDTH = 12.5;
 
-    public static double kV = 0.142; // 0.22014, 0.13968
-    public static double kA = 0.07782; // 0.00113, 0.10473
-    public static double kStatic = 0.00395; // 0.28525, 0.015
+    public static double kV = 0.03357; // 0.22014, 0.13968
+    public static double kA = 0.00224; // 0.00113, 0.10473
+    public static double kStatic = 0.10052; // 0.28525, 0.015
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
             30.0, 30.0, 0.0,
