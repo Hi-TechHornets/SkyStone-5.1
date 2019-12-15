@@ -588,7 +588,6 @@ public class HardwareUtil {
    * Generates the toolbox for the blocks editor, excluding the categories for {@link HardwareType}s
    * that do not exist in the given {@link HardwareItemMap}.
    */
-  @SuppressWarnings("deprecation")
   private static String generateToolbox(HardwareItemMap hardwareItemMap,
       Map<String, Boolean> capabilities, AssetManager assetManager) throws IOException {
     StringBuilder xmlToolbox = new StringBuilder();

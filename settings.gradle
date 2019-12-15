@@ -1,4 +1,4 @@
 include ':FtcRobotController'
 include ':TeamCode'
 include 'HOMAR-FTC-Library'
-
+include ':RobotCore', ':Blocks', ':RobotServer', ':FtcCommon', ':Hardware', ':Inspection', ':OpenRC'

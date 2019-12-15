@@ -102,6 +102,8 @@ android {
     }
 }
 
+apply from: '../moduleFlavors.gradle'
+
 repositories {
     flatDir {
         dirs rootProject.file('libs')

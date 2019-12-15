@@ -75,6 +75,7 @@ public class LegalityNotification
                 })
                 .setCancelable(false);
 
+        assert activity != null;
         activity.runOnUiThread(new Runnable()
         {
             @Override
