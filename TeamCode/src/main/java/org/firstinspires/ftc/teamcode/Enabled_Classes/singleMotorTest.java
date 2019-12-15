@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import edu.spa.ftclib.internal.state.Button;
-import edu.spa.ftclib.internal.state.ToggleBoolean;
+import org.firstinspires.ftc.teamcode.Enabled_Classes.util.Button;
+import org.firstinspires.ftc.teamcode.Enabled_Classes.util.ToggleBoolean;
 
 @TeleOp
 public class singleMotorTest extends LinearOpMode {
