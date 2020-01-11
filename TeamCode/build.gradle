@@ -16,7 +16,7 @@ apply from: '../build.common.gradle'
 dependencies {
     implementation 'org.openftc:rev-extensions-2:1.2'
     implementation 'com.acmerobotics.dashboard:dashboard:0.3.4'
-    implementation 'com.acmerobotics.roadrunner:core:0.4.5'
+    implementation 'com.acmerobotics.roadrunner:core:0.4.6'
 
     implementation project(':FtcRobotController')
 }

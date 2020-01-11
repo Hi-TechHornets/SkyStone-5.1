@@ -36,12 +36,15 @@ public class robotControl {
 
 //    public Servo gripperServo;
 //    public Servo cr;
-    public Servo lock;
+//    public Servo lock;
     public Servo foundation;
+    public Servo gripper;
+    public Servo rotate;
+    public Servo stone;
 
     public BNO055IMUImpl imu;
 
-    public DigitalChannel magnet;
+//    public DigitalChannel magnet;
 
     public ElapsedTime timer = new ElapsedTime();
 
@@ -59,10 +62,13 @@ public class robotControl {
 
         lift = hardwareMap.dcMotor.get("lift");
 
-        lock = hardwareMap.servo.get("lock");
+//        lock = hardwareMap.servo.get("lock");
         foundation = hardwareMap.servo.get("foundation");
+        gripper = hardwareMap.servo.get("gripper");
+        rotate = hardwareMap.servo.get("rotate");
+        stone = hardwareMap.servo.get("stone");
 
-        magnet = hardwareMap.digitalChannel.get("magnet");
+//        magnet = hardwareMap.digitalChannel.get("magnet");
 
 //        gripperRotate = hardwareMap.dcMotor.get("flipMotor");
 //        gripperServo = hardwareMap.servo.get("gripperServo");
@@ -129,14 +135,14 @@ public class robotControl {
         return timer.time(TimeUnit.MILLISECONDS);
     }
 
-    public String sampleSkyStone(Telemetry telemetry, TFObjectDetector tfod) {
+    public static String sampleSkyStone(TFObjectDetector tfod) {
         String position = "";
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
             List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
             if (updatedRecognitions != null) {
-                telemetry.addData("# Object Detected", updatedRecognitions.size());
+//                telemetry.addData("# Object Detected", updatedRecognitions.size());
                 // step through the list of recognitions and display boundary info.
                 if(updatedRecognitions.size() == 2) {
                     double stone1X = -1;
@@ -154,25 +160,24 @@ public class robotControl {
                         }
                     }
                     if(skyStoneX == -1 && stone1X != -1 && stone2X != -1) {
-                        telemetry.addData("Position", "left");
-                        position = "left";
+//                        telemetry.addData("Position", "right");
+                        return "right";
                     }
                     else if(skyStoneX != -1 && stone1X != 1) {
                         if(skyStoneX > stone1X) {
-                            telemetry.addData("Position", "right");
-                            position = "right";
+//                            telemetry.addData("Position", "center");
+                            return "center";
                         }
-                        else {
-                            telemetry.addData("Position", "center");
-                            position = "center";
+                        else if(skyStoneX < stone1X) {
+//                            telemetry.addData("Position", "left");
+                            return "left";
                         }
+                        else return "";
                     }
-//                    telemetry.addData("Position", position);
-//                    telemetry.update();
                 }
             }
         }
-        telemetry.update();
+//        telemetry.update();
         return position;
     }
 }

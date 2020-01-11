@@ -25,6 +25,7 @@ import static org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.DriveConst
 public class mecanumDriveREV extends mecanumDriveBase {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private Servo foundation;
+    private Servo stone;
     private List<DcMotorEx> motors;
     private BNO055IMU imu;
 
@@ -50,6 +51,7 @@ public class mecanumDriveREV extends mecanumDriveBase {
         rightFront = hardwareMap.get(DcMotorEx.class, "2rightFront");
 
         foundation = hardwareMap.servo.get("foundation");
+        stone = hardwareMap.servo.get("stone");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -122,6 +124,8 @@ public class mecanumDriveREV extends mecanumDriveBase {
     public void setFoundation(double position) {
         foundation.setPosition(position);
     }
+
+    public void setStone(double position) {stone.setPosition(position);}
 
     public void invertMotors() {
         if(leftFront.getDirection().equals(DcMotorSimple.Direction.REVERSE)) {

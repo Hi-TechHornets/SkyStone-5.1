@@ -132,6 +132,7 @@ public class mecanumDriveREVOptimized extends mecanumDriveBase {
     public void setFoundation(double position) {
         ;
     }
+    public void setStone(double position) {;}
 
     public void invertMotors() {
         if(leftFront.getDirection().equals(DcMotorSimple.Direction.REVERSE)) {

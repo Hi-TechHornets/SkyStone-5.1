@@ -1,16 +1,10 @@
 ---
 poses:
-- x: 61.0
-  y: 61.0
+- x: 32.5
+  y: 9.0
   heading: 0.0
-- x: 20.0
-  y: 61.0
-  heading: 0.0
-- x: 25.0
-  y: 45.0
-  heading: 0.0
-- x: 40.0
-  y: 45.0
+- x: -39.5
+  y: 63.0
   heading: 0.0
 constraints:
   maxVel: 25.0

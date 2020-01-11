@@ -203,5 +203,7 @@ public abstract class mecanumDriveBase extends MecanumDrive {
 
     public abstract void setFoundation(double position);
 
+    public abstract void setStone(double position);
+
     public abstract void invertMotors();
 }

@@ -67,8 +67,14 @@ public class redFoundationAutoCenter extends LinearOpMode {
 
         drive.setPoseEstimate(new Pose2d(61, -61));
 
-        Trajectory backup = drive.trajectoryBuilder().back(33).strafeTo(new Vector2d(18, -32)).back(18).build();
+        Trajectory push = drive.trajectoryBuilder().back(41).strafeTo(new Vector2d(25, -45)).forward(15).build();
+//        Trajectory backup = drive.trajectoryBuilder().back(33).strafeTo(new Vector2d(18, -32)).back(18).build();
+        drive.followTrajectorySync(push);
+
+        drive.setPoseEstimate(new Pose2d(28.5, -45));
+        Trajectory backup = drive.trajectoryBuilder().strafeLeft(7).back(28.5).build();
         drive.followTrajectorySync(backup);
+
 
 
 
