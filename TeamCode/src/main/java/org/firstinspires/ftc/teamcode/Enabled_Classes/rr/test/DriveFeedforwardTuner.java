@@ -20,7 +20,7 @@ import static org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.DriveConst
 
 @Config
 @Autonomous(group = "drive")
-@Disabled
+//@Disabled
 public class DriveFeedforwardTuner extends LinearOpMode {
     public static double MAX_POWER = 0.7;
     public static double DISTANCE = 30;

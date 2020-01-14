@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -12,7 +16,8 @@ import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 import org.firstinspires.ftc.teamcode.R;
 
-public class redStoneAutoCenter extends LinearOpMode {
+@Autonomous
+public class parkCenterOnRightWallDelayed extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -79,7 +84,17 @@ public class redStoneAutoCenter extends LinearOpMode {
         waitForStart();
 
         if (running()) {
-
+            String result = "";
+            drive.setPoseEstimate(new Pose2d(-39.5, 63));
+            Trajectory forward = drive.trajectoryBuilder()
+                    .forward(32)
+                    .build();
+            Trajectory strafe = drive.trajectoryBuilder()
+                    .strafeLeft(26)
+                    .build();
+            sleep(20);
+            drive.followTrajectorySync(strafe);
+            drive.followTrajectorySync(forward);
         }
     }
 

@@ -175,15 +175,28 @@ public class blueStoneAutoCenter extends LinearOpMode {
 
             switch(result) {
                 case "left":
+                    // Get block
                     Trajectory outLeft = drive.trajectoryBuilder()
                             .strafeLeft(5)
                             .forward(50)
                             .build();
+                    // Drop block
                     Trajectory backLeft = drive.trajectoryBuilder()
-                            .back(50 + 19)
+                            .back(53 + 19)
                             .build();
                     Trajectory strafeInLeft = drive.trajectoryBuilder()
                             .strafeRight(5)
+                            .build();
+                    // Get block
+                    Trajectory strafeOutLeft = drive.trajectoryBuilder()
+                            .strafeLeft(5)
+                            .build();
+                    Trajectory out2Left = drive.trajectoryBuilder()
+                            .forward(53 + 19)
+                            .build();
+                    // Drop block
+                    Trajectory parkLeft = drive.trajectoryBuilder()
+                            .back(25)
                             .build();
 
 
@@ -197,6 +210,11 @@ public class blueStoneAutoCenter extends LinearOpMode {
                     drive.followTrajectorySync(strafeInLeft);
                     drive.setStone(stoneDown);
                     sleep(300);
+                    drive.followTrajectorySync(strafeOutLeft);
+                    drive.followTrajectorySync(out2Left);
+                    drive.setStone(stoneUp);
+                    sleep(300);
+                    drive.followTrajectorySync(parkLeft);
                     break;
                 case "center":
                     Trajectory outCenter = drive.trajectoryBuilder()
@@ -260,7 +278,7 @@ public class blueStoneAutoCenter extends LinearOpMode {
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        dashboard.startCameraStream(vuforia, 0);
+//        dashboard.startCameraStream(vuforia, 0);
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
