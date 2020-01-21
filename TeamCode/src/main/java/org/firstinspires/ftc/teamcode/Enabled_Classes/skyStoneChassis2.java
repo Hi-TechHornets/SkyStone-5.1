@@ -18,27 +18,11 @@ public class skyStoneChassis2 extends LinearOpMode {
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
-    public static double lockMin = 0.5;
-    public static double lockMax = 0.15;
-
-    public static double inSpeed = 0.95;
-    public static double outSpeed = 0.4;
-
-    public static double stop = 0.49;
-
     public static double foundationUp = 0.3;
     public static double foundationDown = 1.0;
 
-    public static double gripperClose = 0.0;
-    public static double gripperOpen = 1.0;
-
-    public static double rotateIn = 0.0;
-    public static double rotateOut = 1.0;
-
     public static double stoneUp = 0.85;
     public static double stoneDown = 0.2;
-
-    public static double liftPower = 0.6;
 
     public float x, y, z, w, pwr;
     public static double deadzone = 0.2;
@@ -106,49 +90,12 @@ public class skyStoneChassis2 extends LinearOpMode {
                     hth3.rightRear.setPower(Range.clip(-pwr - x + z, -1, 1));
                 }
             }
-            // Manual lift control
-            if(gamepad2.left_bumper) {
-                hth3.lift.setPower(-liftPower);
-            }
-            else if(gamepad2.right_bumper) {
-                hth3.lift.setPower(liftPower);
-            }
-            else {
-                hth3.lift.setPower(0);
-            }
             // Manual foundation mover control
             if(gamepad2.right_trigger > 0.4) {
                 hth3.foundation.setPosition(foundationUp);
             }
             else if(gamepad2.left_trigger > 0.4) {
                 hth3.foundation.setPosition(foundationDown);
-            }
-            // Manual intake control
-            if(in.output()) {
-                hth3.rightWheel.setPower(inSpeed);
-                hth3.leftWheel.setPower(-inSpeed);
-            }
-            else if(out.output()) {
-                hth3.rightWheel.setPower(-outSpeed);
-                hth3.leftWheel.setPower(outSpeed);
-            }
-            else {
-                hth3.rightWheel.setPower(0);
-                hth3.leftWheel.setPower(0);
-            }
-
-            if(rotateState.output()) {
-                hth3.rotate.setPosition(rotateIn);
-            }
-            else {
-                hth3.rotate.setPosition(rotateOut);
-            }
-
-            if(gripperState.output()) {
-                hth3.gripper.setPosition(gripperClose);
-            }
-            else {
-                hth3.gripper.setPosition(gripperOpen);
             }
 
             if(gamepad2.dpad_down) {
@@ -220,3 +167,19 @@ public class skyStoneChassis2 extends LinearOpMode {
         return opModeIsActive() && !isStopRequested();
     }
 }
+
+// old variables
+//    public static double lockMin = 0.5;
+//    public static double lockMax = 0.15;
+//
+//    public static double inSpeed = 0.95;
+//    public static double outSpeed = 0.4;
+//
+//    public static double stop = 0.49;
+//    public static double gripperClose = 0.0;
+//    public static double gripperOpen = 1.0;
+//
+//    public static double rotateIn = 0.0;
+//    public static double rotateOut = 1.0;
+//
+//    public static double liftPower = 0.6;

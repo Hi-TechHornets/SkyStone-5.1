@@ -17,21 +17,11 @@ public class skyStoneChassis1Con extends LinearOpMode {
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
-    public static double lockMin = 0.5;
-    public static double lockMax = 0.15;
-
-    public static double inSpeed = 0.95;
-    public static double outSpeed = 0.4;
-
-    public static double stop = 0.49;
-
     public static double foundationUp = 0.3;
     public static double foundationDown = 1.0;
 
     public static double stoneUp = 0.85;
     public static double stoneDown = 0.2;
-
-    public static double liftPower = 0.6;
 
     public float x, y, z, w, pwr;
     public static double deadzone = 0.2;
@@ -117,42 +107,10 @@ public class skyStoneChassis1Con extends LinearOpMode {
                 hth3.stone.setPosition(stoneUp);
             }
 
-            // Manual intake control
-            if(in.output()) {
-                hth3.rightWheel.setPower(inSpeed);
-                hth3.leftWheel.setPower(-inSpeed);
-            }
-            else if(out.output()) {
-                hth3.rightWheel.setPower(-outSpeed);
-                hth3.leftWheel.setPower(outSpeed);
-            }
-            else {
-                hth3.rightWheel.setPower(0);
-                hth3.leftWheel.setPower(0);
-            }
-
-            // Manual lock control
-
-//            if(gamepad1.left_bumper) {
-//                hth3.lock.setPosition(lockMax);
-//            }
-//            else if(gamepad1.right_bumper) {
-//                hth3.lock.setPosition(lockMin);
-//            }
-
-
-
             telemetry.addData("in", in.output());
             telemetry.addData("out", out.output());
             telemetry.addData("mode", mode.output());
             telemetry.addData("speedmode", speedMode.output());
-            //telemetry.addData("magnet", !hth3.magnet.getState());
-
-
-
-//            telemetry.addData("leftX", gamepad1.left_stick_x);
-//            telemetry.addData("leftY", gamepad1.left_stick_y);
-//            telemetry.addData("rightX", gamepad1.right_stick_x);
             telemetry.addData("rightFront", hth3.rightFront.getCurrentPosition());
             telemetry.addData("leftFront", hth3.leftFront.getCurrentPosition());
             telemetry.addData("rightRear", hth3.rightRear.getCurrentPosition());

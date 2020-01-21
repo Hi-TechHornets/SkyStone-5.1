@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto;
+package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto.foundation;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -20,7 +20,7 @@ import java.io.InputStream;
 
 @Autonomous(group="drive")
 @Config
-public class redFoundationAutoCenter extends LinearOpMode {
+public class redFoundationAutoWall extends LinearOpMode {
     public static double foundationUp = 0.3;
     public static double foundationDown = 1;
 
@@ -67,14 +67,15 @@ public class redFoundationAutoCenter extends LinearOpMode {
 
         drive.setPoseEstimate(new Pose2d(61, -61));
 
+//        Trajectory backup = drive.trajectoryBuilder().back(61).build();
+//        drive.followTrajectorySync(backup);
         Trajectory push = drive.trajectoryBuilder().back(41).strafeTo(new Vector2d(25, -45)).forward(15).build();
 //        Trajectory backup = drive.trajectoryBuilder().back(33).strafeTo(new Vector2d(18, -32)).back(18).build();
         drive.followTrajectorySync(push);
 
         drive.setPoseEstimate(new Pose2d(28.5, -45));
-        Trajectory backup = drive.trajectoryBuilder().strafeLeft(7).back(28.5).build();
+        Trajectory backup = drive.trajectoryBuilder().strafeLeft(16).back(28.5).build();
         drive.followTrajectorySync(backup);
-
 
 
 

@@ -39,7 +39,7 @@ public class mecanumDriveREV extends mecanumDriveBase {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
-        BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.PPP);
+        BNO055IMUUtil.remapAxes(imu, AxesOrder.ZYX, AxesSigns.NPN);
 
         // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
         // upward (normal to the floor) using a command like the following:

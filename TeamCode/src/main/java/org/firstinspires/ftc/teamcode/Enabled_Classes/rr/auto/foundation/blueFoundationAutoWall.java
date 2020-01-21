@@ -1,12 +1,10 @@
-package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto;
+package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto.foundation;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
@@ -14,17 +12,17 @@ import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 
 @Autonomous(group="drive")
 @Config
-@Disabled
-public class redFoundationAutoCenterRevamp extends LinearOpMode {
+public class blueFoundationAutoWall extends LinearOpMode {
     public static double foundationUp = 0.3;
     public static double foundationDown = 1;
 
     public static double foundationHeight = 50.0;
-    public static double foundationPullOut = -70.0;
+    public static double foundationPullOut = 70.0;
 
     @Override
     public void runOpMode() throws InterruptedException {
         mecanumDriveBase drive = new mecanumDriveREV(hardwareMap);
+        drive.invertMotors();
         drive.resetEncoders();
         drive.setFoundation(foundationUp);
 
@@ -32,15 +30,15 @@ public class redFoundationAutoCenterRevamp extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        drive.setPoseEstimate(new Pose2d(35, -61, Math.PI + Math.PI));
-
-        TrajectoryBuilder trajectoryBuilder = drive.trajectoryBuilder();
-
-
-        drive.setPoseEstimate(new Pose2d(35, -61));
+//        try {
+//            trajectory = load("strafing");
+//            drive.followTrajectorySync(trajectory);
+//        } catch (IOException ignored) {}
+        drive.setPoseEstimate(new Pose2d(35, 61));
+//        drive.setExternalHeading(Math.toRadians(180));
         Trajectory traj1 = drive.trajectoryBuilder()
-                                .strafeTo(new Vector2d(foundationHeight, -33))
-                                .strafeLeft(4)
+                                .strafeTo(new Vector2d(foundationHeight, 33))
+                                .strafeRight(4)
                                 .build();
 
         drive.followTrajectorySync(traj1);
@@ -48,22 +46,33 @@ public class redFoundationAutoCenterRevamp extends LinearOpMode {
         drive.setFoundation(foundationDown);
         sleep(500);
 
+//        drive.setPoseEstimate(new Pose2d(50, 29));
+//        drive.setExternalHeading(Math.toRadians(180));
+
         Trajectory traj2 = drive.trajectoryBuilder()
-                                .strafeTo(new Vector2d(foundationHeight, foundationPullOut))
+                                .strafeTo(new Vector2d(foundationHeight + 2, 70))
+//                                .strafeLeft(41)
                                 .build();
         drive.followTrajectorySync(traj2);
 
         drive.setFoundation(foundationUp);
         sleep(500);
 
+//        drive.setExternalHeading(Math.toRadians(180));
+
         Trajectory reset = drive.trajectoryBuilder()
-                                .strafeTo(new Vector2d(80, -80))
+                                .strafeTo(new Vector2d(80, 80))
                                 .build();
         drive.followTrajectorySync(reset);
 
-        drive.setPoseEstimate(new Pose2d(61, -61));
+        drive.setPoseEstimate(new Pose2d(61, 61));
+//        drive.setExternalHeading(Math.toRadians(180));
 
-        Trajectory backup = drive.trajectoryBuilder().back(33).strafeTo(new Vector2d(18, -32)).back(18).build();
+        Trajectory push = drive.trajectoryBuilder().back(41).strafeTo(new Vector2d(25, 45)).forward(15).build();
+        drive.followTrajectorySync(push);
+
+        drive.setPoseEstimate(new Pose2d(28.5, 45));
+        Trajectory backup = drive.trajectoryBuilder().strafeTo(new Vector2d(28.5, 61)).back(28.5).build();
         drive.followTrajectorySync(backup);
 
 

@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto;
+package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto.stone;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -15,9 +15,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 import org.firstinspires.ftc.teamcode.R;
-
-@Autonomous
-public class parkWallDelayed extends LinearOpMode {
+@Disabled
+public class blueStoneFix extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -85,12 +84,12 @@ public class parkWallDelayed extends LinearOpMode {
 
         if (running()) {
             String result = "";
-            drive.setPoseEstimate(new Pose2d(-39.5, 63));
-            Trajectory forward = drive.trajectoryBuilder()
-                    .forward(32)
+            drive.setPoseEstimate(new Pose2d(-35, 63));
+            Trajectory toStone = drive.trajectoryBuilder()
+                    .strafeTo(new Vector2d(-35, 48))
                     .build();
-            sleep(20000);
-            drive.followTrajectorySync(forward);
+            drive.followTrajectorySync(toStone);
+            drive.setStone(stoneDown);
         }
     }
 
