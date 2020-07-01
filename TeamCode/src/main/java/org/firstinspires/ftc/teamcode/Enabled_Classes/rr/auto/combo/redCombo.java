@@ -1,12 +1,15 @@
-package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto.stone;
+package org.firstinspires.ftc.teamcode.Enabled_Classes.rr.auto.combo;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -16,9 +19,9 @@ import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 import org.firstinspires.ftc.teamcode.R;
 
-@Autonomous(group = "drive")
+@Autonomous(group = "combo")
 //@Disabled
-public class blueStoneAutoCenter extends LinearOpMode {
+public class redCombo extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -31,17 +34,25 @@ public class blueStoneAutoCenter extends LinearOpMode {
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
+    public static double foundationHeight = 55.0;
+
+    public static double foundationUp = 0.2;
+    public static double foundationDown = 1;
+
     public static double stoneUp = 0.85;
     public static double stoneDown = 0.2;
 
     @Override
     public void runOpMode() {
-        mecanumDriveBase drive = new mecanumDriveREV(hardwareMap);
+        mecanumDriveREV drive = new mecanumDriveREV(hardwareMap);
         drive.resetEncoders();
         drive.setStone(stoneUp);
+        drive.setFoundation(foundationUp);
         
         initVuforia();
-        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        if(dashboard != null) {
+            telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        }
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
@@ -59,17 +70,17 @@ public class blueStoneAutoCenter extends LinearOpMode {
 
         if (running()) {
             String result = "";
-            drive.setPoseEstimate(new Pose2d(-39.5, 63, 0.0));
+            drive.setPoseEstimate(new Pose2d(-39.5, -63, Math.toRadians(180.0)));
             Trajectory toStone = drive.trajectoryBuilder()
-                                      .strafeTo(new Vector2d(-33, 46))
+                                      .strafeTo(new Vector2d(-33 + 2, -46))
                                       .build();
             drive.followTrajectorySync(toStone);
             sleep(100);
-            drive.turnSync(Math.toRadians(-7));
+            drive.turnSync(Math.toRadians(-5));
 
             if (tfod != null) {
                 while(running()) {
-                    result = robotControl.sampleSkyStoneBlue(tfod);
+                    result = robotControl.sampleSkyStoneRed(tfod);
                     if (!result.isEmpty()) {
                         break;
                     }
@@ -84,17 +95,16 @@ public class blueStoneAutoCenter extends LinearOpMode {
             }
 
             Trajectory toLeft = drive.trajectoryBuilder()
-                    .strafeTo(new Vector2d(-26, 33))
+                    .strafeTo(new Vector2d(-46.5 + 5, -33 + 1))
                     .build();
 
             Trajectory toCenter = drive.trajectoryBuilder()
-                    .strafeTo(new Vector2d(-33.5, 33))
+                    .strafeTo(new Vector2d(-40 + 5, -33))
                     .build();
 
             Trajectory toRight = drive.trajectoryBuilder()
-                    .strafeTo(new Vector2d(-40, 33))
+                    .strafeTo(new Vector2d(-33.5 + 5, -33))
                     .build();
-
 
 
 
@@ -102,67 +112,25 @@ public class blueStoneAutoCenter extends LinearOpMode {
 
 
             switch(result) {
-                case "left":
-                    // Get block
-                    Trajectory outLeft = drive.trajectoryBuilder()
-                            .strafeLeft(5)
-                            .forward(50 - 13)
-                            .build();
-                    // Drop block
-                    Trajectory backLeft = drive.trajectoryBuilder()
-                            .back(52 + 19 - 13)
-                            .build();
-                    Trajectory strafeInLeft = drive.trajectoryBuilder()
-                            .strafeRight(6)
-                            .build();
-                    // Get block
-                    Trajectory strafeOutLeft = drive.trajectoryBuilder()
-                            .strafeLeft(6.5)
-                            .build();
-                    Trajectory out2Left = drive.trajectoryBuilder()
-                            .forward(53 + 19 - 13)
-                            .build();
-                    // Drop block
-                    Trajectory parkLeft = drive.trajectoryBuilder()
-                            .back(20 - 7)
-                            .build();
-
-
-                    drive.followTrajectorySync(toLeft);
-                    drive.setStone(stoneDown);
-                    sleep(200);
-                    drive.followTrajectorySync(outLeft);
-                    drive.setStone(stoneUp);
-                    sleep(200);
-                    drive.followTrajectorySync(backLeft);
-                    drive.followTrajectorySync(strafeInLeft);
-                    drive.setStone(stoneDown);
-                    sleep(200);
-                    drive.followTrajectorySync(strafeOutLeft);
-                    drive.followTrajectorySync(out2Left);
-                    drive.setStone(stoneUp);
-                    sleep(200);
-                    drive.followTrajectorySync(parkLeft);
-                    break;
                 case "center":
                     Trajectory outCenter = drive.trajectoryBuilder()
                             .strafeLeft(5)
-                            .forward(50 + 8 - 13)
+                            .back(50 + 8 - 11)
                             .build();
                     Trajectory backCenter = drive.trajectoryBuilder()
-                            .back(50 + 8 + 19 - 13)
+                            .forward(50 + 8 + 19 - 10)
                             .build();
                     Trajectory strafeInCenter = drive.trajectoryBuilder()
-                            .strafeRight(6)
+                            .strafeRight(7)
                             .build();
                     Trajectory strafeOutCenter = drive.trajectoryBuilder()
-                            .strafeLeft(6.5)
+                            .strafeLeft(7.75)
                             .build();
                     Trajectory out2Center = drive.trajectoryBuilder()
-                            .forward(50 + 8 + 19 - 13)
+                            .back(50 + 8 + 19 - 11)
                             .build();
                     Trajectory parkCenter = drive.trajectoryBuilder()
-                            .back(20 - 13)
+                            .forward(20 - 11)
                             .build();
 
                     // Move to stone
@@ -175,6 +143,9 @@ public class blueStoneAutoCenter extends LinearOpMode {
 //                    sleep(300);
 //                    // Go back to the blocks (next set)
                     drive.followTrajectorySync(backCenter);
+                    sleep(100);
+                    drive.turnSync(Math.toRadians(-4));
+                    sleep(100);
                     drive.followTrajectorySync(strafeInCenter);
                     drive.setStone(stoneDown);
                     sleep(200);
@@ -184,17 +155,17 @@ public class blueStoneAutoCenter extends LinearOpMode {
                     drive.setStone(stoneUp);
                     sleep(200);
 //                    // Park
-                    drive.followTrajectorySync(parkCenter);
+//                    drive.followTrajectorySync(parkCenter);
                     break;
                 case "right":
                     // Get block
                     Trajectory outRight = drive.trajectoryBuilder()
                             .strafeLeft(5)
-                            .forward(50 + 16 - 13)
+                            .back(50 - 11)
                             .build();
                     // Drop block
                     Trajectory backRight = drive.trajectoryBuilder()
-                            .back(52 - 9 - 13)
+                            .forward(52 + 19 - 11)
                             .build();
                     Trajectory strafeInRight = drive.trajectoryBuilder()
                             .strafeRight(6)
@@ -204,39 +175,139 @@ public class blueStoneAutoCenter extends LinearOpMode {
                             .strafeLeft(6.5)
                             .build();
                     Trajectory out2Right = drive.trajectoryBuilder()
-                            .forward(52 - 9 - 13)
+                            .back(53 + 19 - 11)
                             .build();
                     // Drop block
                     Trajectory parkRight = drive.trajectoryBuilder()
-                            .back(20 - 13)
+                            .forward(20 - 11)
                             .build();
 
 
-                    // Move to stone
                     drive.followTrajectorySync(toRight);
                     drive.setStone(stoneDown);
                     sleep(200);
-                    // Pull stone out and move it to the other side
                     drive.followTrajectorySync(outRight);
                     drive.setStone(stoneUp);
-                    sleep(300);
-                    // Go back to the blocks (next set)
+                    sleep(200);
                     drive.followTrajectorySync(backRight);
                     drive.followTrajectorySync(strafeInRight);
                     drive.setStone(stoneDown);
                     sleep(200);
-//                    // Move block to other side
                     drive.followTrajectorySync(strafeOutRight);
                     drive.followTrajectorySync(out2Right);
                     drive.setStone(stoneUp);
                     sleep(200);
+//                    drive.followTrajectorySync(parkRight);
+                    break;
+                case "left":
+                    // Get block
+                    Trajectory outLeft = drive.trajectoryBuilder()
+                            .strafeLeft(5)
+                            .back(50 + 16 - 11)
+                            .build();
+                    // Drop block
+                    Trajectory backLeft = drive.trajectoryBuilder()
+                            .forward(52 - 9 - 11)
+                            .build();
+                    Trajectory strafeInLeft = drive.trajectoryBuilder()
+                            .strafeRight(6.3)
+                            .build();
+                    // Get block
+                    Trajectory strafeOutLeft = drive.trajectoryBuilder()
+                            .strafeLeft(6.5)
+                            .build();
+                    Trajectory out2Left = drive.trajectoryBuilder()
+                            .back(52 - 9 - 11)
+                            .build();
+                    // Drop block
+                    Trajectory parkLeft = drive.trajectoryBuilder()
+                            .forward(20 - 11)
+                            .build();
+
+
+                    // Move to stone
+                    drive.followTrajectorySync(toLeft);
+                    drive.setStone(stoneDown);
+                    sleep(200);
+                    // Pull stone out and move it to the other side
+                    drive.followTrajectorySync(outLeft);
+                    drive.setStone(stoneUp);
+                    sleep(300);
+                    // Go back to the blocks (next set)
+                    drive.followTrajectorySync(backLeft);
+                    drive.followTrajectorySync(strafeInLeft);
+                    drive.setStone(stoneDown);
+                    sleep(200);
+//                    // Move block to other side
+                    drive.followTrajectorySync(strafeOutLeft);
+                    drive.followTrajectorySync(out2Left);
+                    drive.setStone(stoneUp);
+                    sleep(200);
 //                    // Park
-                    drive.followTrajectorySync(parkRight);
+//                    drive.followTrajectorySync(parkLeft);
                     break;
                 default:
                     break;
             }
 //            sleep(5000);
+            drive.turnSync(Math.toRadians(180) + drive.getRawExternalHeading());
+            drive.turnSync(Math.toRadians(180) - drive.getRawExternalHeading());
+            drive.turnSync(Math.toRadians(180) - drive.getRawExternalHeading());
+
+            Trajectory toFoundation = drive.trajectoryBuilder()
+                    .strafeTo(new Vector2d(foundationHeight, -33))
+                    .strafeLeft(8)
+                    .build();
+
+            drive.followTrajectorySync(toFoundation);
+
+
+
+            drive.turnSync(Math.toRadians(180) - drive.getRawExternalHeading());
+            drive.turnSync(Math.toRadians(180) - drive.getRawExternalHeading());
+
+            drive.setFoundation(foundationDown);
+            drive.setFoundationRange(foundationDown - 0.01, foundationDown);
+            sleep(300);
+
+            drive.setConstraints(new DriveConstraints(20.0, 20.0, 0.0,
+                    Math.toRadians(180.0), Math.toRadians(180.0), 0.0));
+
+            //Pulls the foundation back
+            drive.setPoseEstimate(new Pose2d(drive.getPoseEstimate().getX(), drive.getPoseEstimate().getY(), Math.toRadians(180)));
+            Trajectory pullFound = drive.trajectoryBuilder()
+                    .splineTo(new Pose2d(foundationHeight + 2, -78, Math.toRadians(-90)), new ConstantInterpolator(Math.toRadians(9)))
+                    .build();
+            drive.followTrajectorySync(pullFound);
+
+            drive.setPoseEstimate(new Pose2d(drive.getPoseEstimate().getX(), drive.getPoseEstimate().getY(), Math.toRadians(0)));
+            drive.resetConstraints();
+
+            drive.setFoundationRange(foundationUp, foundationDown);
+            drive.setFoundation(foundationUp);
+
+            drive.turnSync(Math.toRadians(180) + drive.getRawExternalHeading());
+            drive.turnSync(Math.toRadians(180) + drive.getRawExternalHeading());
+
+            //Parks robot on tape
+            Trajectory park1 = drive.trajectoryBuilder()
+                    .strafeLeft(3)
+                    .back(30)
+                    .build();
+            drive.followTrajectorySync(park1);
+
+
+            Trajectory park2 = drive.trajectoryBuilder()
+                    .strafeLeft(18)
+                    .forward(22)
+                    .build();
+            drive.followTrajectorySync(park2);
+
+            Trajectory park3 = drive.trajectoryBuilder()
+                    .strafeRight(2)
+                    .back(22)
+                    .build();
+            drive.followTrajectorySync(park3);
         }
 
 

@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.util.ToggleBoolean;
 
 @Config
-@TeleOp
 //@Disabled
 public class skyStoneChassis1Con extends LinearOpMode {
     robotControl hth3;

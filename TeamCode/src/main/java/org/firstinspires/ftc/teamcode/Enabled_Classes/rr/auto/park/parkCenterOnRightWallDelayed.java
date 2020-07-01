@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 import org.firstinspires.ftc.teamcode.R;
 
-@Autonomous
+@Autonomous(group="park")
 public class parkCenterOnRightWallDelayed extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 

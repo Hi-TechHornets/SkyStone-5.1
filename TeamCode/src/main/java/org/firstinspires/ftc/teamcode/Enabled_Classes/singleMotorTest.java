@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.util.Button;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.util.ToggleBoolean;
 
-@TeleOp
+//@TeleOp
 public class singleMotorTest extends LinearOpMode {
     robotControl hth3;
 

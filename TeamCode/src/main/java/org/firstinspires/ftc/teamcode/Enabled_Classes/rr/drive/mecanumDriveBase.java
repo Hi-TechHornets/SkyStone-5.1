@@ -191,6 +191,14 @@ public abstract class mecanumDriveBase extends MecanumDrive {
         }
     }
 
+    public void setConstraints(DriveConstraints constraints) {
+        this.constraints = new MecanumConstraints(constraints, TRACK_WIDTH);
+    }
+
+    public void resetConstraints() {
+        this.constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
+    }
+
     public boolean isBusy() {
         return mode != Mode.IDLE;
     }
@@ -202,6 +210,8 @@ public abstract class mecanumDriveBase extends MecanumDrive {
     public abstract void resetEncoders();
 
     public abstract void setFoundation(double position);
+
+    public abstract void setFoundationRange(double min, double max);
 
     public abstract void setStone(double position);
 

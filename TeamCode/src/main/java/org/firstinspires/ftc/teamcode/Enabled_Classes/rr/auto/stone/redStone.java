@@ -17,9 +17,9 @@ import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 import org.firstinspires.ftc.teamcode.R;
 
-@Autonomous(group = "drive")
+@Autonomous(group = "stone")
 //@Disabled
-public class redMoreStoneAutoCenter extends LinearOpMode {
+public class redStone extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -42,7 +42,9 @@ public class redMoreStoneAutoCenter extends LinearOpMode {
         drive.setStone(stoneUp);
         
         initVuforia();
-        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        if(dashboard != null) {
+            telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        }
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
@@ -108,28 +110,16 @@ public class redMoreStoneAutoCenter extends LinearOpMode {
                             .back(50 + 8 - 11)
                             .build();
                     Trajectory backCenter = drive.trajectoryBuilder()
-                            .forward(50 + 8 + 19 - 11)
+                            .forward(50 + 8 + 19 - 10)
                             .build();
                     Trajectory strafeInCenter = drive.trajectoryBuilder()
-                            .strafeRight(6)
-                            .build();
-                    Trajectory strafeInFurtherCenter = drive.trajectoryBuilder()
-                            .strafeRight(8)
+                            .strafeRight(7)
                             .build();
                     Trajectory strafeOutCenter = drive.trajectoryBuilder()
-                            .strafeLeft(6.75)
-                            .build();
-                    Trajectory strafeOutFurtherCenter = drive.trajectoryBuilder()
-                            .strafeLeft(8.5)
+                            .strafeLeft(7.75)
                             .build();
                     Trajectory out2Center = drive.trajectoryBuilder()
                             .back(50 + 8 + 19 - 11)
-                            .build();
-                    Trajectory backCenterStoneThree = drive.trajectoryBuilder()
-                            .forward(52 - 17 - 6)
-                            .build();
-                    Trajectory out3Center = drive.trajectoryBuilder()
-                            .back(52 - 17 - 6)
                             .build();
                     Trajectory parkCenter = drive.trajectoryBuilder()
                             .forward(20 - 11)
@@ -148,20 +138,12 @@ public class redMoreStoneAutoCenter extends LinearOpMode {
                     sleep(100);
                     drive.turnSync(Math.toRadians(-4));
                     sleep(100);
-                    drive.followTrajectorySync(strafeInFurtherCenter);
+                    drive.followTrajectorySync(strafeInCenter);
                     drive.setStone(stoneDown);
                     sleep(200);
 //                    // Move block to other side
-                    drive.followTrajectorySync(strafeOutFurtherCenter);
+                    drive.followTrajectorySync(strafeOutCenter);
                     drive.followTrajectorySync(out2Center);
-                    drive.setStone(stoneUp);
-                    sleep(200);
-                    drive.followTrajectorySync(backCenterStoneThree);
-                    drive.followTrajectorySync(strafeInFurtherCenter);
-                    drive.setStone(stoneDown);
-                    sleep(200);
-                    drive.followTrajectorySync(strafeOutFurtherCenter);
-                    drive.followTrajectorySync(out3Center);
                     drive.setStone(stoneUp);
                     sleep(200);
 //                    // Park
@@ -175,29 +157,17 @@ public class redMoreStoneAutoCenter extends LinearOpMode {
                             .build();
                     // Drop block
                     Trajectory backRight = drive.trajectoryBuilder()
-                            .forward(52 + 19 - 12)
+                            .forward(52 + 19 - 11)
                             .build();
                     Trajectory strafeInRight = drive.trajectoryBuilder()
                             .strafeRight(6)
-                            .build();
-                    Trajectory strafeInFurtherRight = drive.trajectoryBuilder()
-                            .strafeRight(7.5)
                             .build();
                     // Get block
                     Trajectory strafeOutRight = drive.trajectoryBuilder()
                             .strafeLeft(6.5)
                             .build();
-                    Trajectory strafeOutFurtherRight = drive.trajectoryBuilder()
-                            .strafeLeft(8)
-                            .build();
                     Trajectory out2Right = drive.trajectoryBuilder()
-                            .back(53 + 19 - 12.5)
-                            .build();
-                    Trajectory backRightStoneThree = drive.trajectoryBuilder()
-                            .forward(52 - 10)
-                            .build();
-                    Trajectory out3Right = drive.trajectoryBuilder()
-                            .back(52 - 9)
+                            .back(53 + 19 - 11)
                             .build();
                     // Drop block
                     Trajectory parkRight = drive.trajectoryBuilder()
@@ -212,26 +182,13 @@ public class redMoreStoneAutoCenter extends LinearOpMode {
                     drive.setStone(stoneUp);
                     sleep(200);
                     drive.followTrajectorySync(backRight);
-                    sleep(100);
-                    drive.turnSync(Math.toRadians(-4));
-                    sleep(100);
-                    drive.followTrajectorySync(strafeInFurtherRight);
+                    drive.followTrajectorySync(strafeInRight);
                     drive.setStone(stoneDown);
                     sleep(200);
-                    drive.followTrajectorySync(strafeOutFurtherRight);
+                    drive.followTrajectorySync(strafeOutRight);
                     drive.followTrajectorySync(out2Right);
                     drive.setStone(stoneUp);
                     sleep(200);
-                    drive.followTrajectorySync(backRightStoneThree);
-                    sleep(100);
-                    drive.turnSync(Math.toRadians(-4));
-                    sleep(100);
-                    drive.followTrajectorySync(strafeInFurtherRight);
-                    drive.setStone(stoneDown);
-                    sleep(200);
-                    drive.followTrajectorySync(strafeOutFurtherRight);
-                    drive.followTrajectorySync(out3Right);
-                    drive.setStone(stoneUp);
                     drive.followTrajectorySync(parkRight);
                     break;
                 case "left":
@@ -247,24 +204,12 @@ public class redMoreStoneAutoCenter extends LinearOpMode {
                     Trajectory strafeInLeft = drive.trajectoryBuilder()
                             .strafeRight(6.3)
                             .build();
-                    Trajectory strafeInFurtherLeft = drive.trajectoryBuilder()
-                            .strafeRight(8.5)
-                            .build();
                     // Get block
                     Trajectory strafeOutLeft = drive.trajectoryBuilder()
                             .strafeLeft(6.5)
                             .build();
-                    Trajectory strafeOutFurtherLeft = drive.trajectoryBuilder()
-                            .strafeLeft(8.7)
-                            .build();
                     Trajectory out2Left = drive.trajectoryBuilder()
                             .back(52 - 9 - 11)
-                            .build();
-                    Trajectory backLeftStoneThree = drive.trajectoryBuilder()
-                            .forward(52 - 9 - 4)
-                            .build();
-                    Trajectory out3Left = drive.trajectoryBuilder()
-                            .back(52 - 9 - 4)
                             .build();
                     // Drop block
                     Trajectory parkLeft = drive.trajectoryBuilder()
@@ -282,27 +227,14 @@ public class redMoreStoneAutoCenter extends LinearOpMode {
                     sleep(300);
                     // Go back to the blocks (next set)
                     drive.followTrajectorySync(backLeft);
-                    sleep(100);
-                    drive.turnSync(Math.toRadians(-4));
-                    sleep(100);
-                    drive.followTrajectorySync(strafeInFurtherLeft);
+                    drive.followTrajectorySync(strafeInLeft);
                     drive.setStone(stoneDown);
                     sleep(200);
 //                    // Move block to other side
-                    drive.followTrajectorySync(strafeOutFurtherLeft);
+                    drive.followTrajectorySync(strafeOutLeft);
                     drive.followTrajectorySync(out2Left);
                     drive.setStone(stoneUp);
                     sleep(200);
-                    drive.followTrajectorySync(backLeftStoneThree);
-                    sleep(100);
-                    drive.turnSync(Math.toRadians(-4));
-                    sleep(100);
-                    drive.followTrajectorySync(strafeInFurtherLeft);
-                    drive.setStone(stoneDown);
-                    sleep(200);
-                    drive.followTrajectorySync(strafeOutFurtherLeft);
-                    drive.followTrajectorySync(out3Left);
-                    drive.setStone(stoneUp);
 //                    // Park
                     drive.followTrajectorySync(parkLeft);
                     break;

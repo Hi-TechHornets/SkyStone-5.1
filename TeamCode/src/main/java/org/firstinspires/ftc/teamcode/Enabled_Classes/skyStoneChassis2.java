@@ -21,6 +21,14 @@ public class skyStoneChassis2 extends LinearOpMode {
     public static double foundationUp = 0.3;
     public static double foundationDown = 1.0;
 
+    public static double gripperClose = 0.0;
+    public static double gripperOpen = 0.4;
+
+    public static double rotateIn = 0.0;
+    public static double rotateOut = 1.0;
+
+    public static double liftPower = 0.6;
+
     public static double stoneUp = 0.85;
     public static double stoneDown = 0.2;
 
@@ -40,12 +48,14 @@ public class skyStoneChassis2 extends LinearOpMode {
         mode = new ToggleBoolean();
         speedMode = new ToggleBoolean();
         rotateState = new ToggleBoolean();
-        gripperState = new ToggleBoolean();
+        gripperState = new ToggleBoolean(); //I like to progmrmam
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
         hth3 = new robotControl();
 
         hth3.init(hardwareMap);
+
+        hth3.gripper.setPosition(gripperClose);
 
         telemetry.addData("Status", "Initialized");
 
@@ -78,10 +88,10 @@ public class skyStoneChassis2 extends LinearOpMode {
             }
             else {
                 if(speedMode.output()) {
-                    hth3.rightFront.setPower(0.5 * Range.clip(-(0.2 * pwr) + x + z, -1, 1));
-                    hth3.leftRear.setPower(0.5 * Range.clip(-(0.2 * pwr) + x - z, -1, 1));
-                    hth3.leftFront.setPower(0.5 * Range.clip(-(0.2 * pwr) - x - z, -1, 1));
-                    hth3.rightRear.setPower(0.5 * Range.clip(-(0.2 * pwr) - x + z, -1, 1));
+                    hth3.rightFront.setPower(0.5 * Range.clip( pwr + x + z, -1, 1));
+                    hth3.leftRear.setPower(0.5 * Range.clip(pwr + x - z, -1, 1));
+                    hth3.leftFront.setPower(0.5 * Range.clip(pwr - x - z, -1, 1));
+                    hth3.rightRear.setPower(0.5 * Range.clip(pwr - x + z, -1, 1));
                 }
                 else {
                     hth3.rightFront.setPower(Range.clip(-pwr + x + z, -1, 1));
@@ -90,6 +100,32 @@ public class skyStoneChassis2 extends LinearOpMode {
                     hth3.rightRear.setPower(Range.clip(-pwr - x + z, -1, 1));
                 }
             }
+
+            // Manual lift control
+            if(gamepad2.left_bumper) {
+                hth3.lift.setPower(-liftPower);
+            }
+            else if(gamepad2.right_bumper) {
+                hth3.lift.setPower(liftPower);
+            }
+            else {
+                hth3.lift.setPower(0);
+            }
+
+            if(rotateState.output()) {
+                hth3.rotate.setPosition(rotateOut);
+            }
+            else {
+                hth3.rotate.setPosition(rotateIn);
+            }
+
+            if(gripperState.output()) {
+                hth3.gripper.setPosition(gripperOpen);
+            }
+            else {
+                hth3.gripper.setPosition(gripperClose);
+            }
+
             // Manual foundation mover control
             if(gamepad2.right_trigger > 0.4) {
                 hth3.foundation.setPosition(foundationUp);

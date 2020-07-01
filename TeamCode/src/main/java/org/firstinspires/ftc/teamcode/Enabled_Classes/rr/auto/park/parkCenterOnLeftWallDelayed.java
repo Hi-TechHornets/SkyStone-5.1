@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveBase;
 import org.firstinspires.ftc.teamcode.Enabled_Classes.rr.drive.mecanumDriveREV;
 
-@Autonomous
+@Autonomous(group="park")
 public class parkCenterOnLeftWallDelayed extends LinearOpMode {
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 

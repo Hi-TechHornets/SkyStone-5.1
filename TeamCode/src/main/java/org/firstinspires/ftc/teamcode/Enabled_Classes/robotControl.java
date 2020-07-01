@@ -20,8 +20,12 @@ public class robotControl {
     public DcMotor rightFront;
     public DcMotor rightRear;
 
+    public DcMotor lift;
+
     public Servo foundation;
     public Servo stone;
+    public Servo gripper;
+    public Servo rotate;
 
     public BNO055IMUImpl imu;
 
@@ -37,7 +41,11 @@ public class robotControl {
         rightFront = hardwareMap.dcMotor.get("2rightFront");
         rightRear = hardwareMap.dcMotor.get("3rightRear");
 
+        lift = hardwareMap.dcMotor.get("lift");
+
         foundation = hardwareMap.servo.get("foundation");
+        gripper = hardwareMap.servo.get("gripper");
+        rotate = hardwareMap.servo.get("rotate");
         stone = hardwareMap.servo.get("stone");
 
         rightFront.setDirection(DcMotor.Direction.REVERSE);
@@ -47,6 +55,8 @@ public class robotControl {
         leftRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightRear.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 

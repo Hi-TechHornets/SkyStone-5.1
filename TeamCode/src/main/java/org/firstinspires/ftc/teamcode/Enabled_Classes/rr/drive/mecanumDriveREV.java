@@ -125,6 +125,10 @@ public class mecanumDriveREV extends mecanumDriveBase {
         foundation.setPosition(position);
     }
 
+    public void setFoundationRange(double min, double max) {
+        foundation.scaleRange(min, max);
+    }
+
     public void setStone(double position) {stone.setPosition(position);}
 
     public void invertMotors() {
